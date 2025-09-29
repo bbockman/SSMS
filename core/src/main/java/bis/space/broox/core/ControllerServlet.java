@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Map;
 
 import com.google.inject.Inject;
+import com.google.inject.Injector;
+
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -23,33 +25,53 @@ public class ControllerServlet extends HttpServlet {
     @Inject
     private Map<String, CommandProcessor> commands;
 
+    @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
+
+        // Get injector from context
+        Injector injector = (Injector) config.getServletContext().getAttribute("guice-injector");
+
+        // Retrieve the Map<String, CommandProcessor>
+        if (injector != null) {
+            commands = injector.getInstance(
+                    com.google.inject.Key.get(
+                            new com.google.inject.TypeLiteral<Map<String, CommandProcessor>>() {}
+                    )
+            );
+        }
     }
 
-    public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String commandCP, view;
+    @Override
+    public void service(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-        commandCP = request.getParameter("ParameterActionCommand");
-        if (commandCP != null) {
-            //	Added	security	to	avoid	mal	invocation	of	the	commands.
-            try {
-                CommandProcessor bisCommand = commands.get(commandCP);
-                view = bisCommand.execute(request, response);
-                if (view == null || view.trim().equalsIgnoreCase("")) {
-                    view = "BisError"; //	Add	error	message	in	session	and	display	that	in	the	jsp.
-                    logger.debug("A null value returned for view");
-                }
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("/BisHome.jsp?prmDynInclPage=" + view );
-                requestDispatcher.forward(request, response);
-            } catch (ClassNotFoundException | InstantiationException e) {
-                logger.error(e.getMessage());
-            } catch (Exception e) {
-                logger.debug("Unplanned exception type in ControllerServlet");
-                logger.error(e.getMessage());
-            }
-        } else {
-            logger.error(MarkerFactory.getMarker("FATAL"), "Action command is null");
+        response.setContentType("text/plain");
+
+        String commandCP = request.getParameter("ParameterActionCommand");
+
+        if (commandCP == null) {
+            response.getWriter().println("No ParameterActionCommand provided");
+            return;
+        }
+
+        if (commands == null) {
+            response.getWriter().println("Commands map not injected!");
+            return;
+        }
+
+        CommandProcessor cp = commands.get(commandCP);
+        if (cp == null) {
+            response.getWriter().println("Unknown command: " + commandCP);
+            return;
+        }
+
+        try {
+            String result = cp.execute(request, response);
+            response.getWriter().println("Executed command: " + commandCP + ", result=" + result);
+        } catch (Exception e) {
+            response.getWriter().println("Error executing command: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

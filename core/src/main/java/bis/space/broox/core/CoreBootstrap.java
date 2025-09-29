@@ -18,7 +18,7 @@ public abstract class CoreBootstrap implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         injector = Guice.createInjector(getAppModule());
-        injectServlets(sce.getServletContext());
+        sce.getServletContext().setAttribute("guice-injector", injector); // store it here
     }
 
     @Override
