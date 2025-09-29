@@ -15,7 +15,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.MarkerFactory;
 
 public class ControllerServlet extends HttpServlet {
 
@@ -46,7 +45,7 @@ public class ControllerServlet extends HttpServlet {
     public void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        response.setContentType("text/plain");
+        response.setContentType("text/html;charset=windows-1252");
 
         String commandCP = request.getParameter("ParameterActionCommand");
 
@@ -67,8 +66,20 @@ public class ControllerServlet extends HttpServlet {
         }
 
         try {
-            String result = cp.execute(request, response);
-            response.getWriter().println("Executed command: " + commandCP + ", result=" + result);
+            String view = cp.execute(request, response);
+
+            if (view == null || view.trim().isEmpty()) {
+                view = "BisError";
+            }
+
+            // Forward to JSP if it exists, else fallback to plain text
+            if (getServletContext().getResource("/BisHome.jsp") != null) {
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/BisHome.jsp?prmDynInclPage=" + view);
+                dispatcher.forward(request, response);
+            } else {
+                response.getWriter().println("Executed command: " + commandCP + ", view=" + view);
+            }
+
         } catch (Exception e) {
             response.getWriter().println("Error executing command: " + e.getMessage());
             e.printStackTrace();
