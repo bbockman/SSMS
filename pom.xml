@@ -11,6 +11,9 @@
     <modules>
         <module>core</module>
         <module>auth</module>
+        <module>data</module>
+        <module>admin</module>
+        <module>app</module>
     </modules>
 
     <properties>
@@ -19,12 +22,32 @@
         <maven.compiler.version>3.14.0</maven.compiler.version>
         <maven.surefire.version>3.5.4</maven.surefire.version>
         <codehaus.mojo.version>3.1.0</codehaus.mojo.version>
+        <maven.jar.version>3.4.2</maven.jar.version>
         <mockito-version>5.20.0</mockito-version>
+        <spring.core.version>6.2.11</spring.core.version>
         <junit-jupiter-version>5.13.4</junit-jupiter-version>
         <javaagent-jars>${env.M2_HOME}/org/mockito/mockito-core/${mockito-version}/mockito-core-${mockito-version}.jar</javaagent-jars>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.core.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.17</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.17</version>
+        </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -55,7 +78,13 @@
     </dependencies>
 
     <dependencyManagement>
-
+        <dependencies>
+            <dependency>
+                <groupId>space.broox</groupId>
+                <artifactId>app</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+        </dependencies>
     </dependencyManagement>
 
     <build>
@@ -83,19 +112,32 @@
             </plugin>
         </plugins>
 
-    <pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>${codehaus.mojo.version}</version>
-                <configuration>
-                    <skip>true</skip>
-                    <mainClass>null</mainClass>
-                </configuration>
-            </plugin>
-        </plugins>
-    </pluginManagement>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>${codehaus.mojo.version}</version>
+                    <configuration>
+                        <skip>true</skip>
+                        <mainClass>null</mainClass>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${maven.jar.version}</version>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <mainClass>org.broox.space.Main</mainClass>
+                            </manifest>
+                        </archive>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
 
     </build>
 
