@@ -9,12 +9,19 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>app</artifactId>
+    <artifactId>ssms-app</artifactId>
     <packaging>war</packaging>
 
     <properties>
-        <mainClass>space.broox.App</mainClass>
+        <mainClass>ssms.space.broox.App</mainClass>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>space.broox</groupId>
+            <artifactId>bis-core</artifactId>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
@@ -31,6 +38,18 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>${mainClass}</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
                     <archive>
                         <manifest>
                             <mainClass>${mainClass}</mainClass>

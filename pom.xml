@@ -23,10 +23,13 @@
         <maven.surefire.version>3.5.4</maven.surefire.version>
         <codehaus.mojo.version>3.1.0</codehaus.mojo.version>
         <maven.jar.version>3.4.2</maven.jar.version>
+        <maven.war.version>3.4.0</maven.war.version>
 
         <mockito-version>5.20.0</mockito-version>
         <junit-jupiter-version>5.13.4</junit-jupiter-version>
         <jakarta.servlet.version>6.0.0</jakarta.servlet.version>
+        <sl4j-api.version>2.0.17</sl4j-api.version>
+        <guice.version>7.0.0</guice.version>
 
         <spring.core.version>6.2.11</spring.core.version>
         <spring.boot.version>3.5.6</spring.boot.version>
@@ -37,21 +40,21 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>${spring.core.version}</version>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>${guice.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>2.0.17</version>
+            <version>${sl4j-api.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>2.0.17</version>
+            <version>${sl4j-api.version}</version>
         </dependency>
 
         <dependency>
@@ -87,8 +90,32 @@
         <dependencies>
             <dependency>
                 <groupId>space.broox</groupId>
-                <artifactId>app</artifactId>
-                <version>1.0.0</version>
+                <artifactId>bis-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>space.broox</groupId>
+                <artifactId>bis-auth</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>space.broox</groupId>
+                <artifactId>bis-data</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring.core.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.inject.extensions</groupId>
+                <artifactId>guice-servlet</artifactId>
+                <version>${guice.version}</version>
             </dependency>
 
             <dependency>
@@ -108,6 +135,12 @@
                 <artifactId>jakarta.servlet-api</artifactId>
                 <version>${jakarta.servlet.version}</version>
                 <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${maven.war.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -153,13 +186,11 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>${maven.jar.version}</version>
-                    <configuration>
-                        <archive>
-                            <manifest>
-                                <mainClass>org.broox.space.Main</mainClass>
-                            </manifest>
-                        </archive>
-                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>${maven.war.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
