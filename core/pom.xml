@@ -12,38 +12,16 @@
     <artifactId>core</artifactId>
 
     <properties>
-        <mainClass>space.broox.App</mainClass>
+
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>space.broox</groupId>
-            <artifactId>app</artifactId>
-        </dependency>
+
     </dependencies>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <configuration>
-                    <skip>false</skip>
-                    <mainClass>${mainClass}</mainClass>
-                </configuration>
-            </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>${mainClass}</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 

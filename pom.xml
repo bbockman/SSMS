@@ -12,20 +12,26 @@
         <module>core</module>
         <module>auth</module>
         <module>data</module>
-        <module>admin</module>
         <module>app</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>24</java.version>
+
         <maven.compiler.version>3.14.0</maven.compiler.version>
         <maven.surefire.version>3.5.4</maven.surefire.version>
         <codehaus.mojo.version>3.1.0</codehaus.mojo.version>
         <maven.jar.version>3.4.2</maven.jar.version>
+
         <mockito-version>5.20.0</mockito-version>
-        <spring.core.version>6.2.11</spring.core.version>
         <junit-jupiter-version>5.13.4</junit-jupiter-version>
+        <jakarta.servlet.version>6.0.0</jakarta.servlet.version>
+
+        <spring.core.version>6.2.11</spring.core.version>
+        <spring.boot.version>3.5.6</spring.boot.version>
+        <spring.security.version>6.5.5</spring.security.version>
+
         <javaagent-jars>${env.M2_HOME}/org/mockito/mockito-core/${mockito-version}/mockito-core-${mockito-version}.jar</javaagent-jars>
     </properties>
 
@@ -83,6 +89,25 @@
                 <groupId>space.broox</groupId>
                 <artifactId>app</artifactId>
                 <version>1.0.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-web</artifactId>
+                <version>${spring.security.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
+                <version>${jakarta.servlet.version}</version>
+                <scope>provided</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
