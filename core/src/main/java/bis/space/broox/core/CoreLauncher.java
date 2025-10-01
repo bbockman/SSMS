@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
-public class TomcatLauncher {
-    static Logger logger = LoggerFactory.getLogger(TomcatLauncher.class);
+public class CoreLauncher {
+    static Logger logger = LoggerFactory.getLogger(CoreLauncher.class);
 
     public static void start(Module serverModule) {
         String webapp = "app/src/main/webapp";

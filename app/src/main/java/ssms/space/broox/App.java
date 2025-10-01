@@ -1,6 +1,6 @@
 package ssms.space.broox;
 
-import bis.space.broox.core.TomcatLauncher;
+import bis.space.broox.core.CoreLauncher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,7 +11,7 @@ public class App {
 
         logger.atInfo().log("Starting application...");
 
-        TomcatLauncher.start(new SSMSModule());
+        CoreLauncher.start(new SSMSModule());
 
     }
 }
