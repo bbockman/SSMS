@@ -12,20 +12,33 @@
     <artifactId>bis-core</artifactId>
 
     <properties>
-
+        <tomcat.version>11.0.11</tomcat.version>
+        <mainClass>bis.space.broox.core.TomcatLauncher</mainClass>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-            <scope>compile</scope>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+            <version>${tomcat.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+            <version>${tomcat.version}</version>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
-
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <configuration>
+                    <skip>false</skip>
+                    <mainClass>${mainClass}</mainClass>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
