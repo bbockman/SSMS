@@ -23,18 +23,15 @@
         <maven.surefire.version>3.5.4</maven.surefire.version>
         <codehaus.mojo.version>3.1.0</codehaus.mojo.version>
         <maven.jar.version>3.4.2</maven.jar.version>
-        <maven.war.version>3.4.0</maven.war.version>
 
         <mockito-version>5.20.0</mockito-version>
         <junit-jupiter-version>5.13.4</junit-jupiter-version>
-        <jakarta.servlet.version>6.0.0</jakarta.servlet.version>
         <sl4j-api.version>2.0.17</sl4j-api.version>
         <guice.version>7.0.0</guice.version>
 
-        <spring.core.version>6.2.11</spring.core.version>
-        <spring.boot.version>3.5.6</spring.boot.version>
         <spring.security.version>6.5.5</spring.security.version>
 
+        <!-- might produce errors on give machines, adjust/remove if necessary -->
         <javaagent-jars>${env.M2_HOME}/org/mockito/mockito-core/${mockito-version}/mockito-core-${mockito-version}.jar</javaagent-jars>
     </properties>
 
@@ -107,40 +104,9 @@
             </dependency>
 
             <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-core</artifactId>
-                <version>${spring.core.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.google.inject.extensions</groupId>
-                <artifactId>guice-servlet</artifactId>
-                <version>${guice.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-web</artifactId>
-                <version>${spring.boot.version}</version>
-            </dependency>
-
-            <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-web</artifactId>
                 <version>${spring.security.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>jakarta.servlet</groupId>
-                <artifactId>jakarta.servlet-api</artifactId>
-                <version>${jakarta.servlet.version}</version>
-                <scope>provided</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>${maven.war.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -177,8 +143,8 @@
                     <artifactId>exec-maven-plugin</artifactId>
                     <version>${codehaus.mojo.version}</version>
                     <configuration>
-                        <skip>true</skip>
-                        <mainClass>null</mainClass>
+                        <!--suppress UnresolvedMavenProperty (child must override to use) -->
+                        <mainClass>${mainClass}</mainClass>
                     </configuration>
                 </plugin>
 
@@ -186,11 +152,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>${maven.jar.version}</version>
-                </plugin>
-
-                <plugin>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>${maven.war.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
